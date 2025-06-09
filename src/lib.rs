@@ -12,8 +12,8 @@ pub struct Toml {
 #[derive(Debug, Deserialize)]
 pub struct Plugin {
     pub authors: Option<Vec<String>>,
-    pub name: Option<String>,
-    pub version: Option<String>,
+    pub name: String,
+    pub version: String,
     pub description: Option<String>,
     pub license: Option<String>,
     pub path: String,
@@ -57,7 +57,7 @@ mod tests {
         });
         */
 
-        assert_eq!(toml.plugin.name, Some("test_asset".to_string()));
-        assert_eq!(toml.plugin.version, Some("0.1.0".to_string()));
+        assert_eq!(toml.plugin.name, "test_asset".to_string());
+        assert_eq!(toml.plugin.version, "0.1.0".to_string());
     }
 }

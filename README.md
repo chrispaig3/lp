@@ -10,7 +10,7 @@
 
 ## Roadmap
 
-- More configurations formats
+- More configuration formats
     - Ron
     - Json
     - Yaml

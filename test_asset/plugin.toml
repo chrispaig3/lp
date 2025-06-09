@@ -1,0 +1,7 @@
+[plugin]
+authors = ["chrispaig3"]
+name = "test_asset"
+version = "0.1.0"
+description = "A test asset for the plugin manager."
+license = "MIT"
+path = "/path/to/test_asset"

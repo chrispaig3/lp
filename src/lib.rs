@@ -59,6 +59,7 @@ mod tests {
         toml.plugin.register(|plugin| {
             assert_eq!(plugin.name, "test_asset".to_string());
             assert_eq!(plugin.version, "0.1.0".to_string());
+            assert_eq!(plugin.path, "/path/to/test_asset".to_string());
         });
     }
 }

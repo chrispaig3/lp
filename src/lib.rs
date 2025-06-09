@@ -2,7 +2,6 @@ use std::fs;
 use toml;
 use serde::Deserialize;
 
-
 // Plugin Manifest
 #[derive(Debug, Deserialize)]
 pub struct Toml {

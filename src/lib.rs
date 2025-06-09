@@ -2,6 +2,8 @@ use std::fs;
 use toml;
 use serde::Deserialize;
 
+
+// Plugin Manifest
 #[derive(Debug, Deserialize)]
 pub struct Toml {
     pub plugin: Plugin,
@@ -17,16 +19,23 @@ pub struct Plugin {
     pub path: String,
 }
 
+// Plugin Management
 impl Plugin {
+    /// Registers the plugin, adding it to the appropriate directory
+    /// Because application architecture may vary, you may want to implement your own logic for registering plugins.
     pub fn register(&self, _: impl Fn(Plugin)) {}
 
+    /// Unregisters the plugin, removing it from the directory
+    /// Because application architecture may vary, you may want to implement your own logic for unregistering plugins.
     pub fn unregister(&self, _: impl Fn(Plugin)) {}
 
+    /// Executes the plugin
+    /// At the end of the day, it is up to you to implement the logic for what the plugin does when it runs.
     pub fn run(&self, _: impl Fn(Plugin)) {}
 }
 
 impl Toml {
-    pub fn parse_toml(path: &str) -> Result<Self, toml::de::Error> {
+    pub fn parse(path: &str) -> Result<Self, toml::de::Error> {
         let toml =  fs::read_to_string(path).unwrap();
         match toml::from_str(&toml) {
             Ok(toml) => Ok(toml),
@@ -41,7 +50,7 @@ mod tests {
 
     #[test]
     fn test_plugin_parsing() {
-        let toml = Toml::parse_toml("test_asset/plugin.toml").unwrap();
+        let toml = Toml::parse("test_asset/plugin.toml").unwrap();
         /* 
         toml.plugin.register(|plugin| {
             println!("Plugin registered: {:?}", plugin);

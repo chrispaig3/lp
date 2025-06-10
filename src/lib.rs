@@ -22,7 +22,7 @@ pub struct Plugin {
 impl Plugin {
     /// Registers the plugin, adding it to the appropriate directory
     /// Because application architecture may vary, you may want to implement your own logic for registering plugins.
-    pub fn register(&self, f: impl Fn(Plugin)){
+    pub fn register(&self, f: impl Fn(Plugin)) {
         f(self.clone());
     }
 

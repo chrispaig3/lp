@@ -75,8 +75,6 @@ Ron(
 ```
 
 #### Roadmap
-- Improved Docs
-    - Examples
 
 - Improve Tests
     - Refactor the mock up to reflect a realistic use case.

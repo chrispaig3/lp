@@ -4,6 +4,8 @@
 
 > An embeddable plugin system for Rust applications.
 
+- LibPlugin handles the majority of boilerplate required for implementing a functional plugin system; offering some flexibility in design & configuration.
+
 ***Still under early development; I would recommend against using it at the moment.***
 
 - Supported Formats:

@@ -87,6 +87,7 @@ mod tests {
 
         assert_eq!(ron.plugin.name, "test_asset");
         assert_eq!(json.plugin.name, "test_asset");
+        
         toml.plugin.register(|plugin| {
             if let Some(path) = &plugin.path {
                if !Path::new(path).exists() {

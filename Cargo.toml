@@ -1,11 +1,12 @@
 [package]
 authors = ["chrispaig3"]
 name = "lp"
-version = "0.1.5"
+version = "0.1.6"
 description = "An embeddable plugin system for Rust applications."
 edition = "2024"
 license = "MIT"
 
 [dependencies]
-serde = { version = "1.0.219", features = ["derive"] }
+ron = "0.10.1"
 toml = "0.8.23"
+serde = { version = "1.0.219", features = ["derive"] }

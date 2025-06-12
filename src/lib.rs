@@ -13,14 +13,13 @@ pub trait PluginManager {
 pub struct Toml {
     pub plugin: Plugin,
 }
-
-/* 
+ 
 // Ron Manifest
 #[derive(Debug, Deserialize)]
 pub struct Ron {
     pub plugin: Plugin,
 }
-
+/*
 #[derive(Debug, Deserialize)]
 pub struct Json {
     pub plugin: Plugin,
@@ -68,6 +67,13 @@ impl Toml {
     }
 }
 
+impl Ron {
+    pub fn parse(path: &str) -> Result<Self, ron::error::SpannedError> {
+        let ron = fs::read_to_string(path).unwrap();
+        ron::from_str(&ron)
+    }
+}
+
 mod tests {
     #[test]
     fn test_plugin() {
@@ -75,7 +81,9 @@ mod tests {
         use std::path::Path;
 
         let toml = Toml::parse("test_asset/plugin.toml").unwrap();
+        let ron = Ron::parse("test_asset/plugin.ron").unwrap();
         
+        assert_eq!(ron.plugin.name, "test_asset");
         toml.plugin.register(|plugin| {
             if let Some(path) = &plugin.path {
                if !Path::new(path).exists() {

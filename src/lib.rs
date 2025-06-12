@@ -45,10 +45,7 @@ impl PluginManager for Plugin {
 impl Toml {
     pub fn parse(path: &str) -> Result<Self, toml::de::Error> {
         let toml = fs::read_to_string(path).unwrap();
-        match toml::from_str(&toml) {
-            Ok(toml) => Ok(toml),
-            Err(e) => Err(e),
-        }
+        toml::from_str(&toml)
     }
 }
 

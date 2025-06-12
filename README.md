@@ -8,11 +8,10 @@
 
 - Supported Formats:
     - Toml
+    - Ron
 
 ## Roadmap
-
 - More configuration formats
-    - Ron
     - Json
     - Yaml
 

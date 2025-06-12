@@ -8,11 +8,30 @@ pub trait PluginManager {
     fn run(&self, f: impl Fn(Plugin));
 }
 
-// Plugin Manifest
+// Toml Manifest
 #[derive(Debug, Deserialize)]
 pub struct Toml {
     pub plugin: Plugin,
 }
+
+/* 
+// Ron Manifest
+#[derive(Debug, Deserialize)]
+pub struct Ron {
+    pub plugin: Plugin,
+}
+
+// Yaml Manifest
+#[derive(Debug, Deserialize)]
+pub struct Yaml {
+    pub plugin: Plugin,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct Json {
+    pub plugin: Plugin,
+}
+*/
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct Plugin {

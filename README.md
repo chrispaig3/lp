@@ -9,12 +9,9 @@
 - Supported Formats:
     - Toml
     - Ron
+    - Json
 
 ## Roadmap
-- More configuration formats
-    - Json
-    - Yaml
-
 - Improved Docs
     - Examples
 

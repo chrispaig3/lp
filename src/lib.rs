@@ -19,18 +19,12 @@ pub struct Toml {
 pub struct Ron {
     pub plugin: Plugin,
 }
-/*
+
+// Json Manifest
 #[derive(Debug, Deserialize)]
 pub struct Json {
     pub plugin: Plugin,
 }
-
-// Yaml Manifest
-#[derive(Debug, Deserialize)]
-pub struct Yaml {
-    pub plugin: Plugin,
-}
-*/
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct Plugin {
@@ -74,6 +68,13 @@ impl Ron {
     }
 }
 
+impl Json {
+    pub fn parse(path: &str) -> Result<Self, serde_json::Error> {
+        let json = fs::read_to_string(path).unwrap();
+        serde_json::from_str(&json)
+    }
+}
+
 mod tests {
     #[test]
     fn test_plugin() {
@@ -82,8 +83,10 @@ mod tests {
 
         let toml = Toml::parse("test_asset/plugin.toml").unwrap();
         let ron = Ron::parse("test_asset/plugin.ron").unwrap();
-        
+        let json = Json::parse("test_asset/plugin.json").unwrap();
+
         assert_eq!(ron.plugin.name, "test_asset");
+        assert_eq!(json.plugin.name, "test_asset");
         toml.plugin.register(|plugin| {
             if let Some(path) = &plugin.path {
                if !Path::new(path).exists() {

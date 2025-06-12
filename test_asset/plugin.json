@@ -1,0 +1,10 @@
+{
+  "plugin": {
+    "name": "test_asset",
+    "version": "1.0.0",
+    "authors": ["chrispaig3"],
+    "description": "An example plugin",
+    "license": "MIT",
+    "path": "/path/to/test_asset"
+  }
+}

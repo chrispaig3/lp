@@ -64,9 +64,8 @@ mod tests {
             if let Some(path) = &plugin.path {
                if !Path::new(path).exists() {
                     println!("Plugin directory does not exist, creating @: {:?}", path);
-                    //fs::create_dir(path).unwrap();
-                    //let path = Path::new(path).join("plugin.toml");
-                    //fs::rename("test_asset/plugin.toml", path).unwrap();
+                    // set up plugin dir
+                    // move plugin files to dir
                 } else {
                     println!("Plugin directory already exists: {:?}", path);
                 }

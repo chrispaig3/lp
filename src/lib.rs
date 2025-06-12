@@ -63,6 +63,7 @@ mod tests {
                     println!("Plugin directory does not exist, creating @: {:?}", path);
                     // set up plugin dir
                     // move plugin files to dir
+                    assert_eq!(plugin.path, Some("/path/to/test_asset".to_string()));
                 } else {
                     println!("Plugin directory already exists: {:?}", path);
                 }

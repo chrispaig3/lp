@@ -2,6 +2,12 @@ use std::fs;
 use toml;
 use serde::Deserialize;
 
+pub trait PluginManager {
+    fn register(&self, f: impl Fn(Plugin));
+    fn unregister(&self, f: impl Fn(Plugin));
+    fn run(&self, f: impl Fn(Plugin));
+}
+
 // Plugin Manifest
 #[derive(Debug, Deserialize)]
 pub struct Toml {
@@ -19,19 +25,19 @@ pub struct Plugin {
 }
 
 // Plugin Management
-impl Plugin {
+impl PluginManager for Plugin {
     /// Registers the plugin, adding it to the appropriate directory
-    pub fn register(&self, f: impl Fn(Plugin)) {
+    fn register(&self, f: impl Fn(Plugin)) {
         f(self.clone());
     }
 
     /// Unregisters the plugin, removing it from the directory
-    pub fn unregister(&self, f: impl Fn(Plugin)) {
+    fn unregister(&self, f: impl Fn(Plugin)) {
         f(self.clone());
     }
 
     /// Executes the plugin
-    pub fn run(&self, f: impl Fn(Plugin)) {
+    fn run(&self, f: impl Fn(Plugin)) {
         f(self.clone());
     }
 }

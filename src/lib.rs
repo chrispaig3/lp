@@ -21,14 +21,14 @@ pub struct Ron {
     pub plugin: Plugin,
 }
 
-// Yaml Manifest
 #[derive(Debug, Deserialize)]
-pub struct Yaml {
+pub struct Json {
     pub plugin: Plugin,
 }
 
+// Yaml Manifest
 #[derive(Debug, Deserialize)]
-pub struct Json {
+pub struct Yaml {
     pub plugin: Plugin,
 }
 */

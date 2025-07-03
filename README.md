@@ -15,7 +15,7 @@
 
 ### Basic Usage
 ```rust
-use lp::Toml;
+use lp::{PluginManager, Toml};
 
 fn main() {
     let toml = Toml::parse("plugin_manifest.toml")

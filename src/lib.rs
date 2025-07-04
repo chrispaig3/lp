@@ -1,6 +1,6 @@
+use serde::Deserialize;
 use std::fs;
 use toml;
-use serde::Deserialize;
 
 pub trait PluginManager {
     fn register(&self, f: impl Fn(Plugin));
@@ -13,7 +13,7 @@ pub trait PluginManager {
 pub struct Toml {
     pub plugin: Plugin,
 }
- 
+
 // Ron Manifest
 #[derive(Debug, Deserialize)]
 pub struct Ron {
@@ -87,14 +87,21 @@ mod tests {
 
         assert_eq!(ron.plugin.name, "test_asset");
         assert_eq!(json.plugin.name, "test_asset");
-        
+
         toml.plugin.register(|plugin| {
-            if let Some(path) = &plugin.path {
-               if !Path::new(path).exists() {
+            if let Some(path) = &plugin.path
+                && let Some(description) = &plugin.description
+                && let Some(authors) = plugin.authors
+                && let Some(license) = &plugin.license
+            {
+                if !Path::new(path).exists() {
                     println!("Plugin directory does not exist, creating @: {:?}", path);
                     // set up plugin dir
                     // move plugin files to dir
-                    assert_eq!(plugin.path, Some("/path/to/test_asset".to_string()));
+                    assert_eq!(path, &"/path/to/test_asset".to_string());
+                    assert_eq!(authors, vec!["chrispaig3"]);
+                    assert_eq!(description, &"A test plugin");
+                    assert_eq!(license, &"MIT");
                 } else {
                     println!("Plugin directory already exists: {:?}", path);
                 }

@@ -100,7 +100,7 @@ mod tests {
                     // move plugin files to dir
                     assert_eq!(path, &"/path/to/test_asset".to_string());
                     assert_eq!(authors, vec!["chrispaig3"]);
-                    assert_eq!(description, &"A test plugin");
+                    assert_eq!(description, &"A test asset for the plugin manager.");
                     assert_eq!(license, &"MIT");
                 } else {
                     println!("Plugin directory already exists: {:?}", path);

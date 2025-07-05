@@ -106,12 +106,22 @@ mod tests {
 
         // Register plugin with custom logic.
         let p = toml.plugin.register(|plugin| {
-            if let Some(path) = &plugin.path {
+            if let Some(path) = &plugin.path
+                && let Some(description) = &plugin.description
+                && let Some(license) = &plugin.license
+                && let Some(authors) = plugin.authors
+            {
                 if !Path::new(path).exists() {
                     println!("Plugin directory does not exist, creating @: {:?}", path);
                     // set up plugin dir
                     // move plugin files to dir
-                    assert_eq!(plugin.path, Some("/path/to/test_asset".to_string()));
+                    assert_eq!(path, &"/path/to/test_asset".to_string());
+                    assert_eq!(
+                        description,
+                        &"A test asset for the plugin manager.".to_string()
+                    );
+                    assert_eq!(license, &"MIT");
+                    assert_eq!(authors, vec!["chrispaig3"])
                 } else {
                     println!("Plugin directory already exists: {:?}", path);
                 }

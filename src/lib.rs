@@ -55,23 +55,23 @@ impl PluginManager for Plugin {
 }
 
 impl Toml {
-    pub fn parse(path: &str) -> Result<Self, toml::de::Error> {
-        let toml = fs::read_to_string(path).unwrap();
-        toml::from_str(&toml)
+    pub fn parse(path: &str) -> Result<Self, Box<dyn std::error::Error>> {
+        let toml = fs::read_to_string(path)?;
+        toml::from_str(&toml).map_err(|e| e.into())
     }
 }
 
 impl Ron {
-    pub fn parse(path: &str) -> Result<Self, ron::error::SpannedError> {
-        let ron = fs::read_to_string(path).unwrap();
-        ron::from_str(&ron)
+    pub fn parse(path: &str) -> Result<Self, Box<dyn std::error::Error>> {
+        let ron = fs::read_to_string(path)?;
+        ron::from_str(&ron).map_err(|e| e.into())
     }
 }
 
 impl Json {
-    pub fn parse(path: &str) -> Result<Self, serde_json::Error> {
-        let json = fs::read_to_string(path).unwrap();
-        serde_json::from_str(&json)
+    pub fn parse(path: &str) -> Result<Self, Box<dyn std::error::Error>> {
+        let json = fs::read_to_string(path)?;
+        serde_json::from_str(&json).map_err(|e| e.into())
     }
 }
 
@@ -81,9 +81,9 @@ mod tests {
         use super::*;
         use std::path::Path;
 
-        let toml = Toml::parse("test_asset/plugin.toml").unwrap();
-        let ron = Ron::parse("test_asset/plugin.ron").unwrap();
-        let json = Json::parse("test_asset/plugin.json").unwrap();
+        let toml = Toml::parse("test_asset/plugin.toml").expect("File not found");
+        let ron = Ron::parse("test_asset/plugin.ron").expect("File not found");
+        let json = Json::parse("test_asset/plugin.json").expect("File not found");
 
         assert_eq!(ron.plugin.name, "test_asset");
         assert_eq!(json.plugin.name, "test_asset");

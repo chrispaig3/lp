@@ -38,7 +38,7 @@ pub struct Plugin {
     pub path: Option<String>,
 }
 
-// implement parse fn for each format
+// implements parse fn for each format
 impl_parse!(Toml, toml::from_str);
 impl_parse!(Ron, ron::from_str);
 impl_parse!(Json, serde_json::from_str);

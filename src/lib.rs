@@ -2,6 +2,8 @@ use serde::Deserialize;
 use std::fs;
 use toml;
 
+mod parse;
+
 pub trait PluginManager {
     fn register(&self, f: impl Fn(Plugin));
     fn unregister(&self, f: impl Fn(Plugin));
@@ -36,6 +38,11 @@ pub struct Plugin {
     pub path: Option<String>,
 }
 
+// implement parse fn for each format
+impl_parse!(Toml, toml::from_str);
+impl_parse!(Ron, ron::from_str);
+impl_parse!(Json, serde_json::from_str);
+
 // Plugin Management
 impl PluginManager for Plugin {
     /// Registers the plugin, adding it to the appropriate directory
@@ -51,27 +58,6 @@ impl PluginManager for Plugin {
     /// Executes the plugin
     fn run(&self, f: impl Fn(Plugin)) {
         f(self.clone());
-    }
-}
-
-impl Toml {
-    pub fn parse(path: &str) -> Result<Self, Box<dyn std::error::Error>> {
-        let toml = fs::read_to_string(path)?;
-        toml::from_str(&toml).map_err(|e| e.into())
-    }
-}
-
-impl Ron {
-    pub fn parse(path: &str) -> Result<Self, Box<dyn std::error::Error>> {
-        let ron = fs::read_to_string(path)?;
-        ron::from_str(&ron).map_err(|e| e.into())
-    }
-}
-
-impl Json {
-    pub fn parse(path: &str) -> Result<Self, Box<dyn std::error::Error>> {
-        let json = fs::read_to_string(path)?;
-        serde_json::from_str(&json).map_err(|e| e.into())
     }
 }
 

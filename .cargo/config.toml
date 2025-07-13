@@ -1,0 +1,1 @@
+rustc_wrapper = "Users/chris/.cargo/bin/sccache"

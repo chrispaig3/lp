@@ -1,30 +1,9 @@
 use serde::Deserialize;
 
+mod errors;
 mod parse;
-
-#[derive(Debug)]
-pub enum ParseError {
-    ReadError(std::io::Error),
-    FormatError(Box<dyn std::error::Error>),
-}
-
-impl std::fmt::Display for ParseError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ParseError::ReadError(err) => write!(f, "Failed to read file to string: {}", err),
-            ParseError::FormatError(err) => write!(f, "Failed to parse format: {}", err),
-        }
-    }
-}
-
-impl std::error::Error for ParseError {
-    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
-        match self {
-            ParseError::ReadError(err) => Some(err),
-            ParseError::FormatError(err) => Some(&**err),
-        }
-    }
-}
+mod tests;
+use errors::ParseError;
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct Plugin {
@@ -86,38 +65,3 @@ impl_parse!(Ron, |file| ron::from_str(file)
     .map_err(|err| PErr::FormatError(err.into())));
 impl_parse!(Json, |file| serde_json::from_str(file)
     .map_err(|err| PErr::FormatError(err.into())));
-
-mod tests {
-    #[test]
-    fn test_plugin() {
-        use super::*;
-        use std::path::Path;
-
-        let toml = Toml::parse("test_asset/plugin.toml").expect("File not found");
-        let ron = Ron::parse("test_asset/plugin.ron").expect("File not found");
-        let json = Json::parse("test_asset/plugin.json").expect("File not found");
-
-        assert_eq!(ron.plugin.name, "test_asset");
-        assert_eq!(json.plugin.name, "test_asset");
-
-        toml.plugin.register(|plugin| {
-            if let Some(path) = &plugin.path
-                && let Some(description) = &plugin.description
-                && let Some(authors) = plugin.authors
-                && let Some(license) = &plugin.license
-            {
-                if !Path::new(path).exists() {
-                    println!("Plugin directory does not exist, creating @: {:?}", path);
-                    // set up plugin dir
-                    // move plugin files to dir
-                    assert_eq!(path, &"/path/to/test_asset".to_string());
-                    assert_eq!(authors, vec!["chrispaig3"]);
-                    assert_eq!(description, &"A test asset for the plugin manager.");
-                    assert_eq!(license, &"MIT");
-                } else {
-                    println!("Plugin directory already exists: {:?}", path);
-                }
-            }
-        });
-    }
-}

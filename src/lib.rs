@@ -1,13 +1,39 @@
 use serde::Deserialize;
-use std::fs;
-use toml;
 
 mod parse;
 
-pub trait PluginManager {
-    fn register(&self, f: impl Fn(Plugin));
-    fn unregister(&self, f: impl Fn(Plugin));
-    fn run(&self, f: impl Fn(Plugin));
+#[derive(Debug)]
+pub enum ParseError {
+    ReadError(std::io::Error),
+    FormatError(Box<dyn std::error::Error>),
+}
+
+impl std::fmt::Display for ParseError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ParseError::ReadError(err) => write!(f, "Failed to read file to string: {}", err),
+            ParseError::FormatError(err) => write!(f, "Failed to parse format: {}", err),
+        }
+    }
+}
+
+impl std::error::Error for ParseError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            ParseError::ReadError(err) => Some(err),
+            ParseError::FormatError(err) => Some(&**err),
+        }
+    }
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct Plugin {
+    pub authors: Option<Vec<String>>,
+    pub name: String,
+    pub version: String,
+    pub description: Option<String>,
+    pub license: Option<String>,
+    pub path: Option<String>,
 }
 
 // Toml Manifest
@@ -28,20 +54,11 @@ pub struct Json {
     pub plugin: Plugin,
 }
 
-#[derive(Debug, Deserialize, Clone)]
-pub struct Plugin {
-    pub authors: Option<Vec<String>>,
-    pub name: String,
-    pub version: String,
-    pub description: Option<String>,
-    pub license: Option<String>,
-    pub path: Option<String>,
+pub trait PluginManager {
+    fn register(&self, f: impl Fn(Plugin));
+    fn unregister(&self, f: impl Fn(Plugin));
+    fn run(&self, f: impl Fn(Plugin));
 }
-
-// implements parse fn for each format
-impl_parse!(Toml, toml::from_str);
-impl_parse!(Ron, ron::from_str);
-impl_parse!(Json, serde_json::from_str);
 
 // Plugin Management
 impl PluginManager for Plugin {
@@ -60,6 +77,14 @@ impl PluginManager for Plugin {
         f(self.clone());
     }
 }
+
+// implements parse fn for each format
+impl_parse!(Toml, |content| toml::from_str(content)
+    .map_err(|err| ParseError::FormatError(err.into())));
+impl_parse!(Ron, |content| ron::from_str(content)
+    .map_err(|err| ParseError::FormatError(err.into())));
+impl_parse!(Json, |content| serde_json::from_str(content)
+    .map_err(|err| ParseError::FormatError(err.into())));
 
 mod tests {
     #[test]

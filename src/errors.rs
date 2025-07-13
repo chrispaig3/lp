@@ -7,8 +7,8 @@ pub enum ParseError {
 impl std::fmt::Display for ParseError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ParseError::ReadError(err) => write!(f, "Failed to read file to string: {}", err),
-            ParseError::FormatError(err) => write!(f, "Failed to parse format: {}", err),
+            ParseError::ReadError(err) => write!(f, "{}", err),
+            ParseError::FormatError(err) => write!(f, "{}", err),
         }
     }
 }

@@ -34,6 +34,41 @@ fn main() {
     });
 }
 ```
+
+### Advanced Usage
+
+```rust
+use lp::{
+    PluginManager, Toml,
+    load::{Lib, Loadable, Symbol},
+};
+
+fn main() {
+    let hello_symbol = "hello_fn";
+    let toml = Toml::parse("").expect("");
+    toml.plugin.register(|plugin| {
+        type UnsafeFn = unsafe extern "C" fn() -> *const std::ffi::c_char;
+
+        if let Some(path) = &plugin.path {
+            let hello_lib = unsafe {
+                Lib::<Symbol<'static, UnsafeFn>>::load(path, hello_symbol)
+                    .expect("Failed to load hello function")
+            };
+
+            if let Some(hello_fn) = &hello_lib.f {
+                let result = unsafe { hello_fn() };
+                println!("hello function loaded!");
+
+                println!("{}", unsafe {
+                    std::ffi::CStr::from_ptr(result).to_string_lossy()
+                });
+            }
+        }
+    });
+}
+```
+
+
 ### Plugin Manifest Example
 
 - TOML

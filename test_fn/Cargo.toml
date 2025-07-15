@@ -1,0 +1,9 @@
+[package]
+name = "test_fn"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+[lib]
+crate-type = ["cdylib"]

@@ -30,3 +30,37 @@ fn test_plugin() {
         }
     });
 }
+
+#[test]
+//#[cfg(feature = "dynamic-loading")]
+fn test_load() {
+    use crate::load::{Lib, Loadable, Symbol};
+    let path = "/Users/chris/Dev/lp/test_fn/target/debug/libtest_fn.dylib";
+    let symbol = "add_fn";
+
+    println!("Loading add function...");
+    unsafe {
+        let add_lib =
+            Lib::<Symbol<'static, unsafe extern "C" fn(i32, i32) -> i32>>::load(path, symbol)
+                .expect("Failed to load add function");
+
+        println!("add function loaded successfully!");
+        if let Some(add_fn) = &add_lib.f {
+            let result = add_fn(5, 3);
+            println!("Result from add(5, 3): {}", result);
+        }
+    }
+
+    let hello_symbol = "hello_fn";
+    unsafe {
+        let hello_lib =
+            Lib::<Symbol<'static, unsafe extern "C" fn() -> *const std::ffi::c_char>>::load(path, hello_symbol)
+                .expect("Failed to load hello function");
+
+        println!("hello function loaded successfully!");
+        if let Some(hello_fn) = &hello_lib.f {
+            let result = hello_fn();
+            println!("Result from hello(): {}", std::ffi::CStr::from_ptr(result).to_string_lossy());
+        }
+    }
+}

@@ -71,7 +71,7 @@ fn main() {
 ```
 
 
-### Plugin Manifest Example
+### Example: Plugin Manifest
 
 - TOML
 

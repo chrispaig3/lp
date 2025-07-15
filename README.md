@@ -38,6 +38,8 @@ fn main() {
 ### Advanced Usage
 
 ```rust
+
+// add to your project: cargo add lp -F dynamic-loading
 use lp::{
     PluginManager, Toml,
     load::{Lib, Loadable, Symbol},

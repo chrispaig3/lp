@@ -1,7 +1,6 @@
 use serde::Deserialize;
 
 mod errors;
-//#[cfg(feature = "dynamic-loading")]
 pub mod load;
 mod parse;
 mod tests;

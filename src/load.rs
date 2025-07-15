@@ -1,6 +1,9 @@
+#[cfg(feature = "dynamic-loading")]
 use crate::errors::LoadError;
+#[cfg(feature = "dynamic-loading")]
 pub use libloading::{Library, Symbol};
 
+#[cfg(feature = "dynamic-loading")]
 pub trait Loadable
 where
     Self: Sized,
@@ -8,11 +11,13 @@ where
     unsafe fn load(path: &str, symbol: &str) -> Result<Self, LoadError>;
 }
 
+#[cfg(feature = "dynamic-loading")]
 pub struct Lib<T> {
     _lib: Library,
     pub f: Option<T>,
 }
 
+#[cfg(feature = "dynamic-loading")]
 impl<T> Loadable for Lib<Symbol<'static, T>>
 where
     T: 'static,

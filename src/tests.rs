@@ -32,7 +32,7 @@ fn test_plugin() {
 }
 
 #[test]
-//#[cfg(feature = "dynamic-loading")]
+#[cfg(feature = "dynamic-loading")]
 fn test_load() {
     use crate::load::{Lib, Loadable, Symbol};
     let path = "/Users/chris/Dev/lp/test_fn/target/debug/libtest_fn.dylib";

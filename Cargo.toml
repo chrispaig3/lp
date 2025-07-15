@@ -7,9 +7,9 @@ description = "An embeddable plugin system for Rust applications."
 edition = "2024"
 license = "MIT"
 
-#[features]
-#default = []
-#dynamic-loading = ["libloading"]
+[features]
+default = []
+dynamic-loading = ["libloading"]
 
 [dependencies]
 ron = "0.10.1"
@@ -28,4 +28,4 @@ serde_json = "1.0.140"
 #WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 #NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 #THIS SOFTWARE.
-libloading = { version = "0.8.8"}
+libloading = { version = "0.8.8", optional = true }

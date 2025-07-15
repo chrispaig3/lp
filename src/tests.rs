@@ -40,9 +40,9 @@ fn test_load() {
 
     println!("Loading add function...");
     unsafe {
-        let add_lib =
-            Lib::<Symbol<'static, unsafe extern "C" fn(i32, i32) -> i32>>::load(path, symbol)
-                .expect("Failed to load add function");
+        type UnsafeFn = unsafe extern "C" fn(i32, i32) -> i32;
+        let add_lib = Lib::<Symbol<'static, UnsafeFn>>::load(path, symbol)
+            .expect("Failed to load add function");
 
         println!("add function loaded successfully!");
         if let Some(add_fn) = &add_lib.f {
@@ -53,14 +53,17 @@ fn test_load() {
 
     let hello_symbol = "hello_fn";
     unsafe {
-        let hello_lib =
-            Lib::<Symbol<'static, unsafe extern "C" fn() -> *const std::ffi::c_char>>::load(path, hello_symbol)
-                .expect("Failed to load hello function");
+        type UnsafeFn = unsafe extern "C" fn() -> *const std::ffi::c_char;
+        let hello_lib = Lib::<Symbol<'static, UnsafeFn>>::load(path, hello_symbol)
+            .expect("Failed to load hello function");
 
         println!("hello function loaded successfully!");
         if let Some(hello_fn) = &hello_lib.f {
             let result = hello_fn();
-            println!("Result from hello(): {}", std::ffi::CStr::from_ptr(result).to_string_lossy());
+            println!(
+                "Result from hello(): {}",
+                std::ffi::CStr::from_ptr(result).to_string_lossy()
+            );
         }
     }
 }

@@ -1,4 +1,4 @@
-//#[cfg(feature = "dynamic-loading")]
+#[cfg(feature = "dynamic-loading")]
 use libloading;
 
 #[derive(Debug)]
@@ -25,14 +25,14 @@ impl std::error::Error for ParseError {
     }
 }
 
-//#[cfg(feature = "dynamic-loading")]
+#[cfg(feature = "dynamic-loading")]
 #[derive(Debug)]
 pub enum LoadError {
     LibraryError(libloading::Error),
     SymbolError { symbol_name: String },
 }
 
-//#[cfg(feature = "dynamic-loading")]
+#[cfg(feature = "dynamic-loading")]
 impl std::fmt::Display for LoadError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -44,7 +44,7 @@ impl std::fmt::Display for LoadError {
     }
 }
 
-//#[cfg(feature = "dynamic-loading")]
+#[cfg(feature = "dynamic-loading")]
 impl std::error::Error for LoadError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
@@ -54,7 +54,7 @@ impl std::error::Error for LoadError {
     }
 }
 
-//#[cfg(feature = "dynamic-loading")]
+#[cfg(feature = "dynamic-loading")]
 impl From<libloading::Error> for LoadError {
     fn from(err: libloading::Error) -> Self {
         LoadError::LibraryError(err)

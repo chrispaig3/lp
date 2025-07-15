@@ -45,7 +45,7 @@ use lp::{
 
 fn main() {
     let hello_symbol = "hello_fn";
-    let toml = Toml::parse("").expect("");
+    let toml = Toml::parse("plugin.toml").expect("File not found");
     toml.plugin.register(|plugin| {
         type UnsafeFn = unsafe extern "C" fn() -> *const std::ffi::c_char;
 

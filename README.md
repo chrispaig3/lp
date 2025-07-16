@@ -114,5 +114,6 @@ Ron(
 #### Roadmap
 
 - Improve Tests
+    - Add opt-in support for MCP via rmcp 
     - Enhance Docs
     - Refactor the mock up to reflect a realistic use case.

@@ -10,7 +10,7 @@ license = "MIT"
 [features]
 default = []
 dynamic-loading = ["libloading"]
-#mcp = ["rmcp"]
+mcp = ["rmcp"]
 
 [dependencies]
 ron = "0.10.1"

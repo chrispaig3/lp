@@ -112,7 +112,7 @@ Ron(
 ```
 
 #### Roadmap
-- Add opt-in support for MCP via rmcp 
+- Add opt-in support for MCP via [rmcp](https://github.com/modelcontextprotocol/rust-sdk) 
 
 - Improve Tests
     - Enhance Docs

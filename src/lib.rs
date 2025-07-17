@@ -2,7 +2,7 @@ use serde::Deserialize;
 
 mod errors;
 pub mod load;
-mod mcp;
+pub mod mcp;
 mod parse;
 mod tests;
 use errors::ParseError;

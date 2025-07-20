@@ -1,5 +1,2 @@
-test_o:
-    cargo t -- --nocapture
-
 test_f:
-    cargo t -F dynamic-loading 
+    cargo t -F dynamic-loading -- --nocapture 

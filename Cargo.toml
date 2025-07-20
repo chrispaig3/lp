@@ -4,7 +4,7 @@ name = "lp"
 version = "0.2.3"
 repository = "https://github.com/chrispaig3/lp"
 description = "An embeddable plugin system for Rust applications."
-categories = ["api-bindings", "config"]
+categories = ["config", "api-bindings"]
 edition = "2024"
 license = "MIT"
 

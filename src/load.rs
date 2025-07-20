@@ -28,7 +28,7 @@ where
         let symbol_name = format!("{}\0", symbol);
         let f: Symbol<T> = unsafe {
             lib.get(symbol_name.as_bytes())
-                .map_err(|_| LoadError::SymbolError {
+                .map_err(|_| LoadError::Symbol {
                     symbol_name: symbol.into(),
                 })
         }?;

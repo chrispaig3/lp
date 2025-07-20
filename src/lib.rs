@@ -62,8 +62,8 @@ impl PluginManager for Plugin {
 // implements parse fn for each format
 type PErr = ParseError;
 impl_parse!(Toml, |file| toml::from_str(file)
-    .map_err(|err| PErr::FormatError(err.into())));
+    .map_err(|err| PErr::Format(err.into())));
 impl_parse!(Ron, |file| ron::from_str(file)
-    .map_err(|err| PErr::FormatError(err.into())));
+    .map_err(|err| PErr::Format(err.into())));
 impl_parse!(Json, |file| serde_json::from_str(file)
-    .map_err(|err| PErr::FormatError(err.into())));
+    .map_err(|err| PErr::Format(err.into())));

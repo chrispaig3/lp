@@ -1,7 +1,7 @@
 [package]
 authors = ["chrispaig3"]
 name = "lp"
-version = "0.2.2"
+version = "0.2.3"
 repository = "https://github.com/chrispaig3/lp"
 description = "An embeddable plugin system for Rust applications."
 categories = ["api-bindings", "config"]

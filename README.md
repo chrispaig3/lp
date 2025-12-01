@@ -20,17 +20,9 @@ use lp::{PluginManager, Toml};
 fn main() {
     let toml = Toml::parse("plugin_manifest.toml")
         .expect("Failed to parse plugin manifest");
-
-    toml.plugin.register(|plugin| {
-        // custom logic to handle registering the plugin
-    });
-
-    toml.plugin.run(|plugin| {
+    
+    toml.plugin.use_plugin(|plugin| {
         // custom logic to handle executing the plugin
-    });
-
-    toml.plugin.unregister(|plugin| {
-        // custom logic to handle unregistering the plugin
     });
 }
 ```
@@ -48,7 +40,7 @@ use lp::{
 fn main() {
     let hello_symbol = "hello_fn";
     let toml = Toml::parse("plugin.toml").expect("File not found");
-    toml.plugin.register(|plugin| {
+    toml.plugin.use_plugin(|plugin| {
         type UnsafeFn = unsafe extern "C" fn() -> *const std::ffi::c_char;
 
         if let Some(path) = &plugin.path {

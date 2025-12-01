@@ -35,25 +35,13 @@ pub struct Json {
 }
 
 pub trait PluginManager {
-    fn register(&self, f: impl Fn(Plugin));
-    fn unregister(&self, f: impl Fn(Plugin));
-    fn run(&self, f: impl Fn(Plugin));
+    fn use_plugin(&self, f: impl Fn(Plugin));
 }
 
 // Plugin Management
-impl PluginManager for Plugin {
-    /// Registers the plugin, adding it to the appropriate directory
-    fn register(&self, f: impl Fn(Plugin)) {
-        f(self.clone());
-    }
-
-    /// Unregisters the plugin, removing it from the directory
-    fn unregister(&self, f: impl Fn(Plugin)) {
-        f(self.clone());
-    }
-
+impl PluginManager for Plugin { 
     /// Executes the plugin
-    fn run(&self, f: impl Fn(Plugin)) {
+    fn use_plugin(&self, f: impl Fn(Plugin)) {
         f(self.clone());
     }
 }

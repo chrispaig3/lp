@@ -7,7 +7,7 @@ fn test_plugin() {
     let toml = Toml::parse("test_asset/plugin.toml").unwrap();
     let hello_symbol = "hello_fn";
 
-    toml.plugin.register(|plugin| {
+    toml.plugin.use_plugin(|plugin| {
         type UnsafeFn = unsafe extern "C" fn() -> *const std::ffi::c_char;
 
         if let Some(path) = &plugin.path {
